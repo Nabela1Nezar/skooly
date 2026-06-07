@@ -1,9 +1,462 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-  <title>My Website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سكولي الذكي — خارطة طريق أجايل</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#0A2342; --navy2:#1B3A6B; --teal:#0E7C7B; --teal2:#12A09F;
+    --teal3:#3ECFCE; --gold:#E8B84B; --cream:#F7F5F0; --white:#FFFFFF;
+    --text:#0A2342; --muted:#6B7A99;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Cairo',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;direction:rtl;}
+
+  /* HERO */
+  .hero{background:var(--navy);position:relative;overflow:hidden;padding:52px 60px 44px;}
+  .hero::before{content:'';position:absolute;inset:0;background:
+    radial-gradient(ellipse 60% 80% at 20% 50%,rgba(14,124,123,.30) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 60% at 90% 80%,rgba(62,207,206,.12) 0%,transparent 60%);}
+  .hero-grid{position:relative;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:32px;max-width:1200px;margin:0 auto;}
+  .logo-row{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-direction:row-reverse;}
+  .logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--teal2),var(--teal3));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 20px rgba(14,124,123,.5);}
+  .logo-text{font-family:'Cairo',sans-serif;font-size:22px;font-weight:900;color:var(--white);letter-spacing:.02em;}
+  .logo-text span{color:var(--teal3);}
+  .hero h1{font-family:'Cairo',sans-serif;font-size:clamp(28px,4vw,46px);font-weight:900;color:var(--white);line-height:1.2;text-align:right;}
+  .hero h1 em{font-style:normal;color:var(--teal3);}
+  .hero-sub{margin-top:10px;font-size:15px;font-weight:300;color:rgba(255,255,255,.65);text-align:right;}
+  .hero-badges{display:flex;flex-direction:column;gap:10px;align-items:flex-start;}
+  .badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:8px 16px;text-align:center;backdrop-filter:blur(8px);min-width:90px;}
+  .badge-val{font-family:'Cairo',sans-serif;font-size:22px;font-weight:900;color:var(--teal3);display:block;}
+  .badge-lbl{font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.04em;}
+
+  /* LEGEND */
+  .legend-bar{background:var(--navy2);padding:14px 60px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;flex-direction:row-reverse;}
+  .legend-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-left:6px;}
+  .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.75);font-family:'Cairo',sans-serif;flex-direction:row-reverse;}
+  .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+  /* TIMELINE */
+  .timeline-wrap{max-width:1200px;margin:0 auto;padding:50px 60px 60px;}
+  .track{position:relative;}
+  .track::before{content:'';position:absolute;right:28px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--teal2),rgba(14,124,123,.1));border-radius:2px;}
+
+  /* SPRINT CARD */
+  .sprint{display:grid;grid-template-columns:1fr 58px;gap:0 28px;margin-bottom:32px;position:relative;animation:fadeUp .5s ease both;}
+  .sprint:nth-child(1){animation-delay:.05s;}
+  .sprint:nth-child(2){animation-delay:.10s;}
+  .sprint:nth-child(3){animation-delay:.15s;}
+  .sprint:nth-child(4){animation-delay:.20s;}
+  .sprint:nth-child(5){animation-delay:.25s;}
+  .sprint:nth-child(6){animation-delay:.30s;}
+  .sprint:nth-child(7){animation-delay:.35s;}
+  .sprint:nth-child(8){animation-delay:.40s;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+  .node{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Cairo',sans-serif;font-weight:900;font-size:11px;color:var(--white);position:relative;z-index:2;flex-shrink:0;box-shadow:0 4px 18px rgba(0,0,0,.18);}
+  .node-num{font-size:18px;line-height:1;}
+  .node-tag{font-size:8px;opacity:.85;margin-top:1px;}
+
+  .card{background:var(--white);border-radius:16px;padding:22px 26px;box-shadow:0 2px 16px rgba(10,35,66,.07);border-right:4px solid transparent;transition:box-shadow .2s,transform .2s;position:relative;overflow:hidden;text-align:right;}
+  .card::after{content:'';position:absolute;top:0;left:0;width:120px;height:120px;border-radius:50%;opacity:.04;transform:translate(-40px,-40px);}
+  .card:hover{box-shadow:0 6px 28px rgba(10,35,66,.13);transform:translateX(-3px);}
+
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-direction:row-reverse;}
+  .card-meta{display:flex;flex-direction:column;gap:4px;text-align:right;}
+  .sprint-label{font-size:11px;font-weight:700;letter-spacing:.06em;opacity:.75;font-family:'Cairo',sans-serif;}
+  .card-title{font-family:'Cairo',sans-serif;font-size:17px;font-weight:900;color:var(--navy);line-height:1.3;}
+  .card-chips{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-start;}
+  .chip{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;font-family:'Cairo',sans-serif;}
+  .chip-duration{background:var(--cream);color:var(--muted);border:1px solid rgba(0,0,0,.08);}
+  .chip-phase{color:var(--white);}
+  .card-desc{font-size:13px;color:var(--muted);font-weight:400;margin-bottom:14px;line-height:1.65;font-style:italic;font-family:'Tajawal',sans-serif;}
+  .tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px 14px;}
+  .task{display:flex;align-items:flex-start;gap:8px;font-size:13px;font-weight:500;color:#2D3A52;line-height:1.5;flex-direction:row-reverse;text-align:right;font-family:'Tajawal',sans-serif;}
+  .task-bullet{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+  .deliverables{margin-top:14px;padding-top:12px;border-top:1px dashed rgba(0,0,0,.08);display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex-direction:row-reverse;}
+  .del-label{font-size:10px;font-weight:700;color:var(--muted);margin-left:4px;font-family:'Cairo',sans-serif;}
+  .del-tag{font-size:11px;padding:2px 9px;border-radius:4px;font-weight:600;font-family:'Cairo',sans-serif;}
+
+  /* Sprint themes */
+  .s1 .node{background:linear-gradient(135deg,#1B3A6B,#2A5298);}
+  .s1 .card{border-right-color:#1B3A6B;} .s1 .card::after{background:#1B3A6B;}
+  .s1 .sprint-label{color:#1B3A6B;} .s1 .chip-phase{background:#1B3A6B;}
+  .s1 .task-bullet{background:#1B3A6B;} .s1 .del-tag{background:#EBF0F8;color:#1B3A6B;}
+
+  .s2 .node{background:linear-gradient(135deg,#0E7C7B,#12A09F);}
+  .s2 .card{border-right-color:#0E7C7B;} .s2 .card::after{background:#0E7C7B;}
+  .s2 .sprint-label{color:#0E7C7B;} .s2 .chip-phase{background:#0E7C7B;}
+  .s2 .task-bullet{background:#0E7C7B;} .s2 .del-tag{background:#E6F4F4;color:#0E7C7B;}
+
+  .s3 .node{background:linear-gradient(135deg,#B45309,#D97706);}
+  .s3 .card{border-right-color:#B45309;} .s3 .card::after{background:#B45309;}
+  .s3 .sprint-label{color:#B45309;} .s3 .chip-phase{background:#B45309;}
+  .s3 .task-bullet{background:#B45309;} .s3 .del-tag{background:#FEF3C7;color:#B45309;}
+
+  .s4 .node{background:linear-gradient(135deg,#6D28D9,#7C3AED);}
+  .s4 .card{border-right-color:#6D28D9;} .s4 .card::after{background:#6D28D9;}
+  .s4 .sprint-label{color:#6D28D9;} .s4 .chip-phase{background:#6D28D9;}
+  .s4 .task-bullet{background:#6D28D9;} .s4 .del-tag{background:#EDE9FE;color:#6D28D9;}
+
+  .s5 .node{background:linear-gradient(135deg,#0369A1,#0284C7);}
+  .s5 .card{border-right-color:#0369A1;} .s5 .card::after{background:#0369A1;}
+  .s5 .sprint-label{color:#0369A1;} .s5 .chip-phase{background:#0369A1;}
+  .s5 .task-bullet{background:#0369A1;} .s5 .del-tag{background:#E0F2FE;color:#0369A1;}
+
+  .s6 .node{background:linear-gradient(135deg,#047857,#059669);}
+  .s6 .card{border-right-color:#047857;} .s6 .card::after{background:#047857;}
+  .s6 .sprint-label{color:#047857;} .s6 .chip-phase{background:#047857;}
+  .s6 .task-bullet{background:#047857;} .s6 .del-tag{background:#D1FAE5;color:#047857;}
+
+  .s7 .node{background:linear-gradient(135deg,#9F1239,#BE123C);}
+  .s7 .card{border-right-color:#9F1239;} .s7 .card::after{background:#9F1239;}
+  .s7 .sprint-label{color:#9F1239;} .s7 .chip-phase{background:#9F1239;}
+  .s7 .task-bullet{background:#9F1239;} .s7 .del-tag{background:#FFE4E6;color:#9F1239;}
+
+  .s8 .node{background:linear-gradient(135deg,#0A2342,#1B3A6B);}
+  .s8 .card{border-right-color:#E8B84B;} .s8 .card::after{background:#E8B84B;}
+  .s8 .sprint-label{color:#0A2342;} .s8 .chip-phase{background:#0A2342;border:1px solid #E8B84B;}
+  .s8 .task-bullet{background:#E8B84B;} .s8 .del-tag{background:#FEF9E7;color:#0A2342;border:1px solid #E8B84B;}
+
+  /* FOOTER */
+  .footer{background:var(--navy);padding:24px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;flex-direction:row-reverse;}
+  .footer-brand{font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,.6);}
+  .footer-brand span{color:var(--teal3);}
+  .footer-note{font-size:12px;color:rgba(255,255,255,.35);font-family:'Tajawal',sans-serif;}
+
+  @media(max-width:720px){
+    .hero,.legend-bar,.timeline-wrap,.footer{padding-left:20px;padding-right:20px;}
+    .track::before{right:22px;}
+    .sprint{grid-template-columns:1fr 46px;gap:0 16px;}
+    .node{width:46px;height:46px;} .node-num{font-size:15px;}
+    .tasks{grid-template-columns:1fr;}
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-badges{flex-direction:row;}
+  }
+</style>
 </head>
 <body>
-  <h1>Hello</h1>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid">
+    <div class="hero-badges">
+      <div class="badge"><span class="badge-val">8</span><span class="badge-lbl">سبرينتات</span></div>
+      <div class="badge"><span class="badge-val">12</span><span class="badge-lbl">شهراً</span></div>
+      <div class="badge"><span class="badge-val">50+</span><span class="badge-lbl">مدرسة - المرحلة الأولى</span></div>
+    </div>
+    <div>
+      <div class="logo-row">
+        <div class="logo-text">سكولي <span>الذكي</span></div>
+        <div class="logo-icon">🎓</div>
+      </div>
+      <h1>خارطة طريق<br><em>التطوير الرشيق (Agile)</em></h1>
+      <p class="hero-sub">منصة أمان مدرسي ذكية B2B &nbsp;·&nbsp; خطة التسليم القائمة على السبرينتات &nbsp;·&nbsp; تنفيذ 12 شهراً</p>
+    </div>
+  </div>
+</header>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <span class="legend-lbl">المراحل</span>
+  <div class="legend-item"><span class="legend-dot" style="background:#1B3A6B"></span>التأسيس</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#0E7C7B"></span>الأجهزة</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#B45309"></span>البناء الأساسي</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#6D28D9"></span>الذكاء الاصطناعي</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#047857"></span>الأمان وضمان الجودة</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#9F1239"></span>الإطلاق الفعلي</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#E8B84B"></span>التوسع</div>
+</div>
+
+<!-- TIMELINE -->
+<main class="timeline-wrap">
+<div class="track">
+
+  <!-- سبرينت 1 -->
+  <div class="sprint s1">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت الأول &nbsp;·&nbsp; الأسابيع 1–3</span>
+          <h2 class="card-title">التأسيس المعماري وإعداد البيئة التقنية</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">3 أسابيع</span>
+          <span class="chip chip-phase">التأسيس</span>
+        </div>
+      </div>
+      <p class="card-desc">وضع الأساس المعماري وتحديد كل المعايير التقنية قبل البدء في بناء أي ميزة.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>تصميم معمارية النظام: الخدمات المصغّرة وطبولوجيا السحابة</div>
+        <div class="task"><span class="task-bullet"></span>إعداد المستودع الموحّد وخط CI/CD واستراتيجية التفريع</div>
+        <div class="task"><span class="task-bullet"></span>تجهيز بيئة AWS الرياض وخوادم الاختبار</div>
+        <div class="task"><span class="task-bullet"></span>بناء مخطط البيانات: الطلاب، المدارس، الباصات، أولياء الأمور</div>
+        <div class="task"><span class="task-bullet"></span>تعريف عقد API ونموذج المصادقة JWT</div>
+        <div class="task"><span class="task-bullet"></span>ضبط الاستضافة المحلية المتوافقة مع سدايا والتشفير</div>
+        <div class="task"><span class="task-bullet"></span>إنشاء نظام التصميم: رموز، مكوّنات، تخطيط RTL العربي</div>
+        <div class="task"><span class="task-bullet"></span>انطلاق السبرينت 0: ترتيب قائمة المهام وتقدير النقاط</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">مخطط المعمارية</span>
+        <span class="del-tag">بيئة التطوير الحية</span>
+        <span class="del-tag">نظام التصميم v1</span>
+        <span class="del-tag">مخطط البيانات</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">1</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+  <!-- سبرينت 2 -->
+  <div class="sprint s2">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت الثاني &nbsp;·&nbsp; الأسابيع 4–5</span>
+          <h2 class="card-title">برمجيات الساعة الذكية وضبط المستشعرات</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">أسبوعان</span>
+          <span class="chip chip-phase">الأجهزة</span>
+        </div>
+      </div>
+      <p class="card-desc">بناء وضبط البرمجيات المدمجة التي تُشغّل كل ميزة أمان يرتديها الطالب على معصمه.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>حلقة استطلاع GPS بفترة قابلة للضبط (1–5 ثوانٍ)</div>
+        <div class="task"><span class="task-bullet"></span>تكامل مشغّلات مستشعر ضربات القلب ودرجة الحرارة</div>
+        <div class="task"><span class="task-bullet"></span>خوارزمية كشف السقوط: دمج مقياس التسارع والجيروسكوب</div>
+        <div class="task"><span class="task-bullet"></span>ذاكرة تخزين مؤقتة دون اتصال لرصف الأحداث عند انقطاع الشبكة</div>
+        <div class="task"><span class="task-bullet"></span>تكامل قارئ RFID/NFC لتسجيل صعود الطلاب ببوابات الباص</div>
+        <div class="task"><span class="task-bullet"></span>تحسين البطارية: ≥ 90% متبقٍّ بعد يوم دراسي 8 ساعات</div>
+        <div class="task"><span class="task-bullet"></span>آلية تحديث البرنامج الثابت عبر الهواء (OTA)</div>
+        <div class="task"><span class="task-bullet"></span>اختبارات الدقة المعملية مقارنةً بالأجهزة الطبية المعيارية</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">البرنامج الثابت v1.0</span>
+        <span class="del-tag">تقرير اختبار المستشعرات</span>
+        <span class="del-tag">خط تحديث OTA</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">2</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+  <!-- سبرينت 3 -->
+  <div class="sprint s3">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت الثالث &nbsp;·&nbsp; الأسابيع 6–8</span>
+          <h2 class="card-title">تطبيق ولي الأمر — الميزات الجوهرية</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">3 أسابيع</span>
+          <span class="chip chip-phase">البناء الأساسي</span>
+        </div>
+      </div>
+      <p class="card-desc">تسليم تجربة الجوّال لولي الأمر: رؤية فورية لمكان الطفل، تنبيهات، وإدارة الانصراف بالعربية والإنجليزية.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>الإعداد الأولي: رمز المدرسة ← ربط الطفل ← موافقة الخصوصية</div>
+        <div class="task"><span class="task-bullet"></span>الخريطة الحية: موقع الطفل + مسار الباص مع ETA</div>
+        <div class="task"><span class="task-bullet"></span>الإشعارات الفورية: الدخول/الخروج، الصعود، التأخيرات</div>
+        <div class="task"><span class="task-bullet"></span>سير عمل طلب الخروج المبكر وتفويض الاستلام</div>
+        <div class="task"><span class="task-bullet"></span>عرض تنبيه الطوارئ مع نوع الحادثة والطابع الزمني</div>
+        <div class="task"><span class="task-bullet"></span>بطاقة المؤشرات الحيوية: ضربات القلب ودرجة الحرارة</div>
+        <div class="task"><span class="task-bullet"></span>المراسلة ثنائية الاتجاه داخل التطبيق مع إدارة المدرسة</div>
+        <div class="task"><span class="task-bullet"></span>تخطيط RTL العربي الكامل ودعم المحتوى ثنائي اللغة</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">تطبيق iOS وAndroid (تجريبي)</span>
+        <span class="del-tag">محرك الإشعارات</span>
+        <span class="del-tag">وحدة الخريطة الحية</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">3</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+  <!-- سبرينت 4 -->
+  <div class="sprint s4">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت الرابع &nbsp;·&nbsp; الأسابيع 9–11</span>
+          <h2 class="card-title">لوحة تحكم المدرسة (Skooly OS) وبوابة الإدارة</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">3 أسابيع</span>
+          <span class="chip chip-phase">البناء الأساسي</span>
+        </div>
+      </div>
+      <p class="card-desc">بناء مركز العمليات التشغيلية للمدرسة — الحضور والنقل والسلامة في واجهة موحّدة واحدة.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>الحضور الآلي: تسجيل RFID/ساعة ← لوحة التحكم الحية</div>
+        <div class="task"><span class="task-bullet"></span>وحدة إدارة الانصراف مع التحقق الرقمي من هوية ولي الأمر</div>
+        <div class="task"><span class="task-bullet"></span>متابعة أسطول الباصات: خريطة فورية وشاشات السائق والمشرف</div>
+        <div class="task"><span class="task-bullet"></span>سجل الحوادث الذكي: رصد تلقائي للشذوذات (تأخر باص، سقوط)</div>
+        <div class="task"><span class="task-bullet"></span>التحكم في الوصول بحسب الأدوار: إداري / معلم / مشرف / سائق</div>
+        <div class="task"><span class="task-bullet"></span>تقارير تشغيلية: حضور ونقل — تصدير PDF وExcel</div>
+        <div class="task"><span class="task-bullet"></span>إعداد White-Label: شعار المدرسة، الألوان، الرسائل المخصصة</div>
+        <div class="task"><span class="task-bullet"></span>إدارة متعددة الفروع لحسابات المجموعات التعليمية</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">لوحة Skooly OS</span>
+        <span class="del-tag">نظام سجل الحوادث</span>
+        <span class="del-tag">محرك White-Label</span>
+        <span class="del-tag">مولّد التقارير</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">4</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+  <!-- سبرينت 5 -->
+  <div class="sprint s5">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت الخامس &nbsp;·&nbsp; الأسابيع 12–13</span>
+          <h2 class="card-title">محرك الذكاء الاصطناعي والتكاملات الخارجية</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">أسبوعان</span>
+          <span class="chip chip-phase">الذكاء الاصطناعي</span>
+        </div>
+      </div>
+      <p class="card-desc">إضافة طبقة الذكاء فوق البيانات التشغيلية — تنبؤ بالازدحام، تحسين المسارات، وتكامل سلس مع الأنظمة.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>توقع الازدحام بالذكاء الاصطناعي: استشراف اختناقات الانصراف مسبقاً</div>
+        <div class="task"><span class="task-bullet"></span>محرك تحسين المسار: اقتراحات ذكية لتحسين مسارات الباصات</div>
+        <div class="task"><span class="task-bullet"></span>نموذج توقع التأخير: ربط بيانات الطقس والحركة المرورية</div>
+        <div class="task"><span class="task-bullet"></span>كشف الشذوذات: أنماط غياب غير معتادة وارتفاعات صحية</div>
+        <div class="task"><span class="task-bullet"></span>طبقة تكامل ERP: موصّلات REST API لأنظمة SIS المدرسية</div>
+        <div class="task"><span class="task-bullet"></span>تكامل خرائط Google Maps لعرض المسارات</div>
+        <div class="task"><span class="task-bullet"></span>لوحات تحليلات KPI متقدمة مع تصوير الاتجاهات</div>
+        <div class="task"><span class="task-bullet"></span>تنبيهات تشغيلية استباقية قبل تصاعد المشكلات</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">نماذج التنبؤ بالذكاء الاصطناعي</span>
+        <span class="del-tag">طبقة API للـ ERP</span>
+        <span class="del-tag">لوحة التحليلات</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">5</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+  <!-- سبرينت 6 -->
+  <div class="sprint s6">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت السادس &nbsp;·&nbsp; الأسابيع 14–16</span>
+          <h2 class="card-title">الأمن والامتثال لـ PDPL وضمان الجودة</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">3 أسابيع</span>
+          <span class="chip chip-phase">الأمن والجودة</span>
+        </div>
+      </div>
+      <p class="card-desc">تحصين كل طبقة من المنصة ضد التهديدات والتحقق من الامتثال الكامل لأنظمة حماية البيانات السعودية.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>تشفير AES-256 على جميع قنوات البيانات والتخزين</div>
+        <div class="task"><span class="task-bullet"></span>تدقيق الامتثال لـ SDAIA/PDPL مع توقيع المستشار القانوني</div>
+        <div class="task"><span class="task-bullet"></span>اختبار الاختراق المستقل — معالجة جميع النتائج الحرجة</div>
+        <div class="task"><span class="task-bullet"></span>تنفيذ سير عمل طلبات الاطلاع على البيانات (DSAR)</div>
+        <div class="task"><span class="task-bullet"></span>تدفقات موافقة الخصوصية وضوابط البيانات الحيوية للأهالي</div>
+        <div class="task"><span class="task-bullet"></span>اختبار الانحدار الكامل: +500 حالة اختبار آلية</div>
+        <div class="task"><span class="task-bullet"></span>اختبار الحمل والضغط: 20 مدرسة متزامنة على المنصة</div>
+        <div class="task"><span class="task-bullet"></span>توقيع ضمان الجودة الشامل: تطبيق + لوحة + ساعة + إشعارات</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">تقرير التدقيق الأمني</span>
+        <span class="del-tag">شهادة امتثال PDPL</span>
+        <span class="del-tag">توقيع ضمان الجودة</span>
+        <span class="del-tag">نتائج اختبار الاختراق</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">6</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+  <!-- سبرينت 7 -->
+  <div class="sprint s7">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت السابع &nbsp;·&nbsp; الأسابيع 17–20</span>
+          <h2 class="card-title">النشر التجريبي — أول 50 مدرسة</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">4 أسابيع</span>
+          <span class="chip chip-phase">الإطلاق الفعلي</span>
+        </div>
+      </div>
+      <p class="card-desc">الإطلاق في العالم الحقيقي — تأهيل أول مجموعة مدارس، تدريب كل أصحاب المصلحة، وإثبات المنتج في ظروف حية.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>نشر الأجهزة: توزيع الساعات الذكية وتهيئتها لكل مدرسة</div>
+        <div class="task"><span class="task-bullet"></span>تأهيل المدارس: استيراد البيانات، مسارات الباصات، حسابات الموظفين</div>
+        <div class="task"><span class="task-bullet"></span>تدريب الإداريين: لوحة التحكم، التقارير، إدارة الحوادث</div>
+        <div class="task"><span class="task-bullet"></span>تأهيل الأهالي: دليل تنزيل التطبيق + حملة الموافقة على الخصوصية</div>
+        <div class="task"><span class="task-bullet"></span>الإطلاق الناعم: مراقبة جميع KPIs مقابل الأهداف في الوقت الفعلي</div>
+        <div class="task"><span class="task-bullet"></span>فريق دعم ميداني لأول أسبوعين في كل مدرسة</div>
+        <div class="task"><span class="task-bullet"></span>جمع NPS وCSAT وتقارير الحوادث من جميع أصحاب المصلحة</div>
+        <div class="task"><span class="task-bullet"></span>دورة التصحيح السريع: حل مشكلات الإنتاج خلال SLA 24 ساعة</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">50 مدرسة تعمل</span>
+        <span class="del-tag">تقرير NPS التجريبي</span>
+        <span class="del-tag">لوحة KPI الإنتاجية</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">7</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+  <!-- سبرينت 8 -->
+  <div class="sprint s8">
+    <div class="card">
+      <div class="card-top">
+        <div class="card-meta">
+          <span class="sprint-label">السبرينت الثامن &nbsp;·&nbsp; الأسابيع 21–48 &nbsp;(الشهر 6–12)</span>
+          <h2 class="card-title">التوسع والتحسين والاستعداد لدول الخليج</h2>
+        </div>
+        <div class="card-chips">
+          <span class="chip chip-duration">مستمر</span>
+          <span class="chip chip-phase">المراحل 2–5</span>
+        </div>
+      </div>
+      <p class="card-desc">النمو من 50 إلى 600 مدرسة، تحسين كل مؤشر أداء، إطلاق ميزات متقدمة، وبناء أساس التوسع الخليجي.</p>
+      <div class="tasks">
+        <div class="task"><span class="task-bullet"></span>توسيع البنية التحتية: تحجيم تلقائي لـ 100←200←400 مدرسة</div>
+        <div class="task"><span class="task-bullet"></span>إصدارات ميزات تكرارية بناءً على ملاحظات التجربة والخارطة</div>
+        <div class="task"><span class="task-bullet"></span>إعادة تدريب نماذج الذكاء الاصطناعي ببيانات الإنتاج الحية</div>
+        <div class="task"><span class="task-bullet"></span>الإضافات المتميزة: التكامل الطبي وساعة ذكية v2</div>
+        <div class="task"><span class="task-bullet"></span>إطلاق برنامج الشراكة والموزعين للقناة غير المباشرة B2B</div>
+        <div class="task"><span class="task-bullet"></span>توثيق الشراكة مع وزارة التعليم والحصول على الشهادات</div>
+        <div class="task"><span class="task-bullet"></span>التوطين الخليجي: الإمارات، الكويت، قطر — دراسة تنظيمية</div>
+        <div class="task"><span class="task-bullet"></span>المراقبة الأمنية المستمرة وعمليات تدقيق سدايا الفصلية</div>
+      </div>
+      <div class="deliverables">
+        <span class="del-label">✓ المخرجات</span>
+        <span class="del-tag">100–600 مدرسة مشتركة</span>
+        <span class="del-tag">إصدارات v2 للميزات</span>
+        <span class="del-tag">خطة التوسع الخليجي</span>
+        <span class="del-tag">ARR: 273 مليون ريال (السنة 5)</span>
+      </div>
+    </div>
+    <div class="node"><span class="node-num">8</span><span class="node-tag">سبرينت</span></div>
+  </div>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand">سكولي <span>الذكي</span> &nbsp;·&nbsp; خارطة طريق أجايل v1.0</div>
+  <div class="footer-note">مُعدَّة لمسابقة إنجاز العرب لريادة الأعمال الشبابية &nbsp;·&nbsp; سري</div>
+</footer>
+
 </body>
 </html>
